@@ -19,6 +19,8 @@ python ml/write_dataset_config.py \
     --tree-path ${CHANNEL}_nominal/ntuple \
     --event-branch event \
     --training-weight-branch training_weight \
+    --additional-cuts ml/${ERA}_${CHANNEL}_cuts.yaml \
+    --friends-config ml/${ERA}_${CHANNEL}_friends.yaml \
     --output-config ml/${ERA}_${CHANNEL}/dataset_config.yaml
 
 ./htt-ml/dataset/create_training_dataset.py ml/${ERA}_${CHANNEL}/dataset_config.yaml

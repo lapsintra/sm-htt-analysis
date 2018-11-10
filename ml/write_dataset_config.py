@@ -48,6 +48,12 @@ def parse_arguments():
         "--output-config", required=True, help="Output dataset config file")
     parser.add_argument(
         "--database", required=True, help="Kappa datsets database.")
+    parser.add_argument(
+        "--additional-cuts", required=True, help="Custom cuts"
+    )
+    parser.add_argument(
+        "--friends-config", required=True, help="Config for custom friends"
+    )
     return parser.parse_args()
 
 
@@ -61,6 +67,27 @@ def main(args):
     output_config["tree_path"] = args.tree_path
     output_config["event_branch"] = args.event_branch
     output_config["training_weight_branch"] = args.training_weight_branch
+
+    # Add friends and global cuts
+    global_cuts = Cuts()
+    friend_dirs = []
+    friend_alias = []
+
+    logger.debug("Add global cuts specified by YAML selection file")
+    with open(args.additional_cuts, "r") as stream:
+        selection_config = yaml.load(stream)
+    with open(args.friends_config, "r") as stream:
+        friends_config = yaml.load(stream)
+    for cutstring in selection_config["cutstrings"]:
+        global_cuts.add(Cut(cutstring))
+    friend_dirs = friends_config["friend_dirs"]
+    friend_aliases = friends_config["friend_aliases"]
+
+    output_config["friend_dirs"] = friend_dirs
+    output_config["friend_aliases"] = friend_aliases
+
+    logger.warning("Added friend dirs: %s", repr(friend_dirs))
+    logger.warning("Globals cuts: %s", global_cuts.expand())
 
     # Define era
     if "2016" in args.era:
@@ -130,7 +157,7 @@ def main(args):
                     for f in estimation.get_files()
                 ],
                 "cut_string": (estimation.get_cuts() + channel.cuts +
-                               additional_cuts).expand(),
+                               additional_cuts + global_cuts).expand(),
                 "weight_string":
                 estimation.get_weights().extract(),
                 "class":
@@ -148,7 +175,7 @@ def main(args):
                 for f in estimation.get_files()
             ],
             "cut_string": (estimation.get_cuts() + channel_ss.cuts +
-                           additional_cuts).expand(),
+                           additional_cuts + global_cuts).expand(),
             "weight_string":
             estimation.get_weights().extract(),
             "class":
@@ -207,7 +234,7 @@ def main(args):
                     for f in estimation.get_files()
                 ],
                 "cut_string": (estimation.get_cuts() + channel.cuts +
-                               additional_cuts).expand(),
+                               additional_cuts + global_cuts).expand(),
                 "weight_string":
                 estimation.get_weights().extract(),
                 "class":
@@ -225,7 +252,7 @@ def main(args):
                 for f in estimation.get_files()
             ],
             "cut_string": (estimation.get_cuts() + channel_ss.cuts +
-                           additional_cuts).expand(),
+                           additional_cuts + global_cuts).expand(),
             "weight_string":
             estimation.get_weights().extract(),
             "class":
@@ -285,7 +312,7 @@ def main(args):
                     for f in estimation.get_files()
                 ],
                 "cut_string": (estimation.get_cuts() + channel.cuts +
-                               additional_cuts).expand(),
+                               additional_cuts + global_cuts).expand(),
                 "weight_string":
                 estimation.get_weights().extract(),
                 "class":
@@ -303,7 +330,7 @@ def main(args):
                 for f in estimation.get_files()
             ],
             "cut_string": (estimation.get_cuts() + channel_ss.cuts +
-                           additional_cuts).expand(),
+                           additional_cuts + global_cuts).expand(),
             "weight_string":
             estimation.get_weights().extract(),
             "class":
@@ -362,7 +389,7 @@ def main(args):
                     for f in estimation.get_files()
                 ],
                 "cut_string": (estimation.get_cuts() + channel.cuts +
-                               additional_cuts).expand(),
+                               additional_cuts + global_cuts).expand(),
                 "weight_string":
                 estimation.get_weights().extract(),
                 "class":
@@ -380,7 +407,7 @@ def main(args):
                 for f in estimation.get_files()
             ],
             "cut_string": (estimation.get_cuts() + channel_ss.cuts +
-                           additional_cuts).expand(),
+                           additional_cuts + global_cuts).expand(),
             "weight_string":
             estimation.get_weights().extract(),
             "class":
@@ -440,7 +467,7 @@ def main(args):
                     for f in estimation.get_files()
                 ],
                 "cut_string": (estimation.get_cuts() + channel.cuts +
-                               additional_cuts).expand(),
+                               additional_cuts + global_cuts).expand(),
                 "weight_string":
                 estimation.get_weights().extract(),
                 "class":
@@ -463,7 +490,7 @@ def main(args):
                 for f in estimation.get_files()
             ],
             "cut_string": (estimation.get_cuts() + channel_iso.cuts +
-                           additional_cuts).expand(),
+                           additional_cuts + global_cuts).expand(),
             "weight_string":
             estimation.get_weights().extract(),
             "class":
@@ -522,7 +549,7 @@ def main(args):
                     for f in estimation.get_files()
                 ],
                 "cut_string": (estimation.get_cuts() + channel.cuts +
-                               additional_cuts).expand(),
+                               additional_cuts + global_cuts).expand(),
                 "weight_string":
                 estimation.get_weights().extract(),
                 "class":
@@ -545,7 +572,7 @@ def main(args):
                 for f in estimation.get_files()
             ],
             "cut_string": (estimation.get_cuts() + channel_iso.cuts +
-                           additional_cuts).expand(),
+                           additional_cuts + global_cuts).expand(),
             "weight_string":
             estimation.get_weights().extract(),
             "class":

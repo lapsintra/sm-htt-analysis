@@ -3,7 +3,7 @@
 ERA=$1
 
 # Samples Run2016
-ARTUS_OUTPUTS_2016=/storage/c/swozniewski/SM_Htautau/ntuples/Artus_2018-08-21/merged
+ARTUS_OUTPUTS_2016=/lstore/cms/bargassa/HTT/Artus_2018-08-21/merged
 ARTUS_FRIENDS_ET_2016=/ceph/wunsch/Artus_2018-08-21/et_keras_3
 ARTUS_FRIENDS_MT_2016=/ceph/wunsch/Artus_2018-08-21/mt_keras_3
 ARTUS_FRIENDS_TT_2016=/ceph/wunsch/Artus_2018-08-21/tt_keras_3
@@ -41,4 +41,4 @@ else
 fi
 
 # Kappa database
-KAPPA_DATABASE=/storage/c/wunsch/kappa_database/datasets_2018-08-01.json
+KAPPA_DATABASE=/lstore/cms/bargassa/HTT/Artus_2018-08-21/datasets_2018-08-01.json
