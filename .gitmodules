@@ -1,12 +1,14 @@
 [submodule "shape-producer"]
 	path = shape-producer
-	url = https://github.com/KIT-CMS/shape-producer.git
+	# url = https://github.com/KIT-CMS/shape-producer.git
+	url = https://github.com/lapsintra/shape-producer.git
 [submodule "datacard-producer"]
 	path = datacard-producer
 	url = https://github.com/KIT-CMS/datacard-producer.git
 [submodule "htt-ml"]
 	path = htt-ml
-	url = https://github.com/KIT-CMS/htt-ml.git
+	# url = https://github.com/KIT-CMS/htt-ml.git
+	url = https://github.com/lapsintra/htt-ml.git
 [submodule "Dumbledraw"]
 	path = Dumbledraw
 	url = https://github.com/KIT-CMS/Dumbledraw.git
@@ -15,4 +17,4 @@
 	url = https://github.com/KIT-CMS/tensorflow_derivative.git
 [submodule "jdl_creator"]
 	path = jdl_creator
-	url = ssh://git@github.com/KIT-CMS/jdl_creator
+	url = https://github.com/KIT-CMS/jdl_creator.git
