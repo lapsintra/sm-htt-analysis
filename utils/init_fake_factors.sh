@@ -9,7 +9,7 @@ scramv1 project CMSSW CMSSW_8_0_4
 cd CMSSW_8_0_4/src
 
 # Setup fake factor tools
-git clone ssh://git@github.com/CMS-HTT/Jet2TauFakes.git HTTutilities/Jet2TauFakes
+git clone https://github.com/CMS-HTT/Jet2TauFakes.git HTTutilities/Jet2TauFakes
 cd HTTutilities/Jet2TauFakes
 git checkout v0.2.2
 scram b
