@@ -6,16 +6,17 @@ CHANNEL=$2
 source utils/setup_cvmfs_sft.sh
 source utils/setup_python.sh
 
-export KERAS_BACKEND=tensorflow
-export OMP_NUM_THREADS=12
-export THEANO_FLAGS=gcc.cxxflags=-march=corei7
+#export KERAS_BACKEND=tensorflow
+export KERAS_BACKEND=theano
+export OMP_NUM_THREADS=8
+#export THEANO_FLAGS=gcc.cxxflags=-march=corei7
 
-if uname -a | grep ekpdeepthought
-then
-    source utils/setup_cuda.sh
-    export KERAS_BACKEND=tensorflow
-    export CUDA_VISIBLE_DEVICES='3'
-fi
+#if uname -a | grep ekpdeepthought
+#then
+#    source utils/setup_cuda.sh
+#    export KERAS_BACKEND=tensorflow
+#    export CUDA_VISIBLE_DEVICES='3'
+#fi
 
 mkdir -p ml/${ERA}_${CHANNEL}
 
@@ -23,15 +24,18 @@ mkdir -p ml/${ERA}_${CHANNEL}
 TEST_CONFUSION_MATRIX=1
 if [ -n "$TEST_CONFUSION_MATRIX" ]; then
 python htt-ml/testing/keras_confusion_matrix.py \
-    ml/${ERA}_${CHANNEL}_training.yaml ml/${ERA}_${CHANNEL}_testing.yaml 0
+    ml/${ERA}_${CHANNEL}_training.yaml ml/${ERA}_${CHANNEL}_testing.yaml \
+    ml/${ERA}_${CHANNEL}_friends.yaml 0
 
 python htt-ml/testing/keras_confusion_matrix.py \
-    ml/${ERA}_${CHANNEL}_training.yaml ml/${ERA}_${CHANNEL}_testing.yaml 1
+    ml/${ERA}_${CHANNEL}_training.yaml ml/${ERA}_${CHANNEL}_testing.yaml \
+    ml/${ERA}_${CHANNEL}_friends.yaml 1
 fi
 
 # Taylor analysis (1D)
-export KERAS_BACKEND=tensorflow
-TEST_TAYLOR_1D=1
+# export KERAS_BACKEND=tensorflow
+export KERAS_BACKEND=theano
+# TEST_TAYLOR_1D=1
 if [ -n "$TEST_TAYLOR_1D" ]; then
 python htt-ml/testing/keras_taylor_1D.py \
     ml/${ERA}_${CHANNEL}_training.yaml ml/${ERA}_${CHANNEL}_testing.yaml 0

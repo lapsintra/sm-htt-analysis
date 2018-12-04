@@ -90,6 +90,16 @@ def parse_arguments():
         help="Backend. Use classic or tdf.")
     parser.add_argument(
         "--tag", default="ERA_CHANNEL", type=str, help="Tag of output files.")
+    parser.add_argument(
+        "--additional-cuts",
+        required=True,
+        type=str,
+        help="Additional cuts")
+    parser.add_argument(
+        "--additional-friends",
+        required=True,
+        type=str,
+        help="Additional friends")
     return parser.parse_args()
 
 
@@ -110,13 +120,31 @@ def main(args):
         raise Exception
 
     # Channels and processes
+    channels = ["et", "mt", "tt"]
+
+    additional_cuts = dict()
+    additional_friends = dict()
+    for channel in channels:
+        with open(args.additional_cuts.format(channel), "r") as stream:
+            config = yaml.load(stream)
+        additional_cuts[channel] = config["cutstrings"]
+
+        with open(args.additional_friends.format(channel), "r") as stream:
+            config = yaml.load(stream)
+        additional_friends[channel] = {key: value for key, value in zip(config["friend_dirs"], config["friend_aliases"])}
+
     # yapf: disable
     directory = args.directory
-    et_friend_directory = args.et_friend_directory
-    mt_friend_directory = args.mt_friend_directory
-    tt_friend_directory = args.tt_friend_directory
+    et_friend_directory = {args.et_friend_directory: ""}
+    et_friend_directory.update(additional_friends["et"])
+    mt_friend_directory = {args.mt_friend_directory: ""}
+    mt_friend_directory.update(additional_friends["mt"])
+    tt_friend_directory = {args.tt_friend_directory: ""}
+    tt_friend_directory.update(additional_friends["tt"])
 
     mt = MTSM2016()
+    for cutstring in additional_cuts["mt"]:
+        mt.cuts.add(Cut(cutstring))
     mt.cuts.remove("tau_iso")
     mt.cuts.add(Cut("(byTightIsolationMVArun2v1DBoldDMwLT_2<0.5&&byVLooseIsolationMVArun2v1DBoldDMwLT_2>0.5)", "tau_anti_iso"))
     mt_processes = {
@@ -135,6 +163,8 @@ def main(args):
         }
 
     et = ETSM2016()
+    for cutstring in additional_cuts["et"]:
+        et.cuts.add(Cut(cutstring))
     et.cuts.remove("tau_iso")
     et.cuts.add(Cut("(byTightIsolationMVArun2v1DBoldDMwLT_2<0.5&&byVLooseIsolationMVArun2v1DBoldDMwLT_2>0.5)", "tau_anti_iso"))
     et_processes = {
@@ -154,6 +184,8 @@ def main(args):
 
     #in tt two 'channels' are needed: antiisolated region for each tau respectively
     tt1 = TTSM2016()
+    for cutstring in additional_cuts["tt"]:
+        tt1.cuts.add(Cut(cutstring))
     tt1.cuts.remove("tau_1_iso")
     tt1.cuts.add(Cut("(byTightIsolationMVArun2v1DBoldDMwLT_1<0.5&&byVLooseIsolationMVArun2v1DBoldDMwLT_1>0.5)", "tau_1_anti_iso"))
     tt1_processes = {
@@ -171,6 +203,8 @@ def main(args):
         #"EWKZ"  : Process("EWKZ",     EWKZEstimation (era, directory, tt1, friend_directory=tt_friend_directory)),
         }
     tt2 = TTSM2016()
+    for cutstring in additional_cuts["tt"]:
+        tt2.cuts.add(Cut(cutstring))
     tt2.cuts.remove("tau_2_iso")
     tt2.cuts.add(Cut("(byTightIsolationMVArun2v1DBoldDMwLT_2<0.5&&byVLooseIsolationMVArun2v1DBoldDMwLT_2>0.5)", "tau_2_anti_iso"))
     tt2_processes = {

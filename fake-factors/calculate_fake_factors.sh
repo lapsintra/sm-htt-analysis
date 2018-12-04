@@ -29,5 +29,5 @@ python fake-factors/calculate_fake_factors.py --era $ERA \
         --et-fake-factor-directory $FF_database_ET \
         --mt-fake-factor-directory $FF_database_MT \
         --tt-fake-factor-directory $FF_database_TT \
-        --num-threads 12 \
+        --num-threads 8 \
         --category-mode $CATEGORYMODE

@@ -14,13 +14,13 @@ python ml/write_application_filelist.py \
     --era ${ERA} \
     --output ml/${ERA}_${CHANNEL}/application_filelist.yaml
 
-export KERAS_BACKEND=tensorflow
-export OMP_NUM_THREADS=1
-export THEANO_FLAGS=gcc.cxxflags=-march=corei7
+export KERAS_BACKEND=theano
+export OMP_NUM_THREADS=32
+# export THEANO_FLAGS=gcc.cxxflags=-march=corei7
 
 python ml/run_application.py \
     --dataset-config ml/${ERA}_${CHANNEL}/dataset_config.yaml \
     --training-config ml/${ERA}_${CHANNEL}_training.yaml \
     --application-config ml/${ERA}_${CHANNEL}_application.yaml \
     --filelist ml/${ERA}_${CHANNEL}/application_filelist.yaml \
-    --num-processes 12
+    --num-processes 8

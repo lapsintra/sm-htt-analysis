@@ -1,86 +1,49 @@
-# Training datasets for different folds
-datasets:
-    - ml/2016_tt/fold0_training_dataset.root
-    - ml/2016_tt/fold1_training_dataset.root
-
-# Base path for all output files
-output_path: ml/2016_tt
-
-# Define classes based on tree names in dataset file
-classes:
-    - ggh
-    - qqh
-    - ztt
-    - noniso
-    - misc
-
-# Set class weights
 class_weights:
-    ggh: 149.6
-    qqh: 531.3
-    ztt: 3.3
-    noniso: 1.7
-    misc: 9.6
-
-# Define global scale factor, which is multiplied to all event weights
-global_weight_scale: 1.0
-
-# Set event weight variable
+  ggh: 52.42498396822483
+  misc: 9.023442470678715
+  noniso: 1.892063685197976
+  qqh: 181.3740893661491
+  ztt: 2.97560799331326
+classes:
+- ztt
+- misc
+- ggh
+- noniso
+- qqh
+datasets:
+- ml/2016_tt/fold0_training_dataset.root
+- ml/2016_tt/fold1_training_dataset.root
 event_weights: training_weight
-
-# Define list of variables to be used for training
-# NOTE: Outcommented lines passing the GoF test but are rejected due
-# to minor sensitivity
-variables:
-    - pt_1
-    - pt_2
-#   - eta_1
-#   - eta_2
-#   - phi_1
-#   - phi_2
-    - jpt_1
-    - jpt_2
-#   - jeta_1
-#   - jeta_2
-#   - jphi_1
-#   - jphi_2
-#   - jcsv_1
-    - jm_1
-    - jm_2
-    - jmva_1
-    - jmva_2
-#   - bpt_1
-#   - bpt_2
-#   - beta_1
-#   - bphi_1
-#   - bphi_2
-    - bcsv_1
-#   - bcsv_2
-#   - nbtag
-    - m_sv
-#   - mt_1
-    - pt_tt
-    - mjj
-    - jdeta
-    - m_vis
-    - dijetpt
-#   - dijetphi
-    - met
-#   - metphi
-
-# Split of dataset in training and validation (in TMVA called training and testing)
-train_test_split: 0.75
-
-# Define preprocessing
-preprocessing: standard_scaler
-
-# Set random seed for initialization of parameters and dataset splits
-seed: 1234
-
-# Define the model parameter
+global_weight_scale: 1.0
 model:
-    name: smhtt_dropout_tanh
-    batch_size: 100
-    epochs: 100000
-    early_stopping: 50
-    save_best_only: true
+  batch_size: 100
+  early_stopping: 50
+  epochs: 100000
+  name: smhtt_dropout_tanh
+  save_best_only: true
+output_path: ml/2016_tt
+preprocessing: standard_scaler
+seed: 1234
+train_test_split: 0.75
+variables:
+- m_sv
+- m_vis
+- ptvis
+- pt_1
+- pt_2
+- jpt_1
+- jcsv_1
+- jcsv_2
+- jm_1
+- jmva_1
+- bpt_1
+- bcsv_1
+- bcsv_2
+- njets
+- nbtag
+- mt_1
+- pt_tt
+- mjj
+- jdeta
+- dijetpt
+- met

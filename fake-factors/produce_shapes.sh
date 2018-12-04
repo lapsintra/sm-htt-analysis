@@ -16,4 +16,6 @@ python fake-factors/produce_shapes_${ERA}.py \
         --era $ERA \
         --tag $ERA \
         -c $CONFIGKEY \
-        --num-threads 16 # & # NOTE: We are at the file descriptor limit.
+        --additional-cuts ml/${ERA}_{}_cuts.yaml \
+        --additional-friend ml/${ERA}_{}_friends.yaml \
+        --num-threads 8 # & # NOTE: We are at the file descriptor limit.
