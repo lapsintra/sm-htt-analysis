@@ -25,6 +25,8 @@ python ml/write_dataset_config.py \
 
 ./htt-ml/dataset/create_training_dataset.py ml/${ERA}_${CHANNEL}/base_dataset_config.yaml
 
+cp ml/${ERA}_${CHANNEL}/base_dataset_config.yaml ml/${ERA}_${CHANNEL}/dataset_config.yaml
+
 # python ml/my_create_superclass.py \
 #     --train-config ml/${ERA}_${CHANNEL}_training.yaml \
 #     --classes-config ml/${ERA}_${CHANNEL}_classes.yaml \
@@ -40,6 +42,5 @@ python ml/write_dataset_config.py \
 #     ml/${ERA}_${CHANNEL}/fold1_training_dataset.root
 # echo
 # python ./ml/my_training_weights.py ml/${ERA}_${CHANNEL}/combined_training_dataset.root \
-#     --classes-config ml/${ERA}_${CHANNEL}_classes.yaml \
 #     --train-config ml/${ERA}_${CHANNEL}_training.yaml
 # echo

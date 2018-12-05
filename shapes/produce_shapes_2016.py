@@ -122,6 +122,16 @@ def parse_arguments():
         default=False,
         type=str,
         help="Do not produce the systematic variations.")
+    parser.add_argument(
+        "--additional-cuts",
+        required=True,
+        type=str,
+        help="Additional cuts")
+    parser.add_argument(
+        "--additional-friends",
+        required=True,
+        type=str,
+        help="Additional friends")
     return parser.parse_args()
 
 
@@ -144,12 +154,33 @@ def main(args):
 
     # Channels and processes
     # yapf: disable
+    # Channels and processes
+    channels = ["et", "mt", "tt"]
+
+    additional_cuts = dict()
+    additional_friends = dict()
+    for channel in channels:
+        with open(args.additional_cuts.format(channel), "r") as stream:
+            config = yaml.load(stream)
+        additional_cuts[channel] = config["cutstrings"]
+
+        with open(args.additional_friends.format(channel), "r") as stream:
+            config = yaml.load(stream)
+        additional_friends[channel] = {key: value for key, value in zip(config["friend_dirs"], config["friend_aliases"])}
+
+    # yapf: disable
     directory = args.directory
-    et_friend_directory = args.et_friend_directory
-    mt_friend_directory = args.mt_friend_directory
-    tt_friend_directory = args.tt_friend_directory
+    et_friend_directory = {args.et_friend_directory: ""}
+    et_friend_directory.update(additional_friends["et"])
+    mt_friend_directory = {args.mt_friend_directory: ""}
+    mt_friend_directory.update(additional_friends["mt"])
+    tt_friend_directory = {args.tt_friend_directory: ""}
+    tt_friend_directory.update(additional_friends["tt"])
     ff_friend_directory = args.fake_factor_friend_directory
+
     mt = MTSM2016()
+    for cutstring in additional_cuts["mt"]:
+        mt.cuts.add(Cut(cutstring))
     if args.QCD_extrap_fit:
         mt.cuts.remove("muon_iso")
         mt.cuts.add(Cut("(iso_1<0.5)*(iso_1>=0.15)", "muon_iso_loose"))
@@ -192,6 +223,8 @@ def main(args):
     mt_processes["FAKES"] = Process("jetFakes", NewFakeEstimationLT(era, directory, mt, [mt_processes[process] for process in ["EMB", "ZL", "TTL", "VVL"]], mt_processes["data"], friend_directory=[mt_friend_directory, ff_friend_directory]))
     mt_processes["QCD"] = Process("QCD", QCDEstimationMT(era, directory, mt, [mt_processes[process] for process in ["ZTT", "ZJ", "ZL", "W", "TTT", "TTL", "TTJ", "VVT", "VVL", "VVJ"]], mt_processes["data"], extrapolation_factor=1.17))
     et = ETSM2016()
+    for cutstring in additional_cuts["et"]:
+        et.cuts.add(Cut(cutstring))
     if args.QCD_extrap_fit:
         et.cuts.remove("ele_iso")
         et.cuts.add(Cut("(iso_1<0.5)*(iso_1>=0.1)", "ele_iso_loose"))
@@ -233,6 +266,8 @@ def main(args):
     et_processes["FAKES"] = Process("jetFakes", NewFakeEstimationLT(era, directory, et, [et_processes[process] for process in ["EMB", "ZL", "TTL", "VVL"]], et_processes["data"], friend_directory=[et_friend_directory, ff_friend_directory]))
     et_processes["QCD"] = Process("QCD", QCDEstimationET(era, directory, et, [et_processes[process] for process in ["ZTT", "ZJ", "ZL", "W", "TTT", "TTL", "TTJ", "VVT", "VVL", "VVJ"]], et_processes["data"], extrapolation_factor=1.16))
     tt = TTSM2016()
+    for cutstring in additional_cuts["tt"]:
+        tt.cuts.add(Cut(cutstring))
     if args.QCD_extrap_fit:
         tt.cuts.get("os").invert()
     if args.HIG16043:

@@ -9,14 +9,14 @@ class_weights:
   misc: 52.5
 
 classes:
-- ss
-- zll
-- tt
-- misc
-- qqh
-- w
-- ztt
 - ggh
+- qqh
+- ztt
+- zll
+- w
+- tt
+- ss
+- misc
 datasets:
 - ml/2016_et/fold0_training_dataset.root
 - ml/2016_et/fold1_training_dataset.root

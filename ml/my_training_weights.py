@@ -20,10 +20,7 @@ def parse_arguments():
     parser = argparse.ArgumentParser(
         description="Sum training weights of classes in training dataset.")
     parser.add_argument("dataset", type=str, help="Training dataset.")
-    parser.add_argument(
-        "--train-config", required=True, help="Training config file")
-    parser.add_argument(
-        "--classes-config", required=True, help="Classes mapping config file")
+    parser.add_argument("config", help="Path to training config file")
     parser.add_argument(
         "--weight-branch",
         default="training_weight",
@@ -34,19 +31,17 @@ def parse_arguments():
 
 def parse_config(filename):
     logger.debug("Load YAML config: {}".format(filename))
-    return yaml.load(open(filename, "r"))
+    with open(filename, "r") as stream:
+        config = yaml.load(stream)
+    return config
 
 
-def main(args, train_config, classes_config):
-    print(classes_config)
-    classes = list(set(classes_config.values()))
-
-
+def main(args, config):
     logger.info("Process training dataset %s.", args.dataset)
     f = ROOT.TFile(args.dataset)
     counts = {}
     sum_all = 0.0
-    for name in classes:
+    for name in config["classes"]:
         logger.debug("Process class %s.", name)
         sum_ = 0.0
         tree = f.Get(name)
@@ -58,15 +53,15 @@ def main(args, train_config, classes_config):
         sum_all += sum_
         counts[name] = sum_
 
-    train_config["classes"] = classes
-    train_config["class_weights"] = {c: sum_all/counts[c] for c in classes}
+    config["classes"] = classes
+    config["class_weights"] = {c: sum_all/counts[c] for c in classes}
 
 
     # Write output config
-    logger.info("Write config to file: {}".format(args.train_config))
-    with open(args.train_config, "w") as stream:
+    logger.info("Write config to file: {}".format(args.config))
+    with open(args.config, "w") as stream:
         yaml.dump(
-            train_config, stream, default_flow_style=False)
+            config, stream, default_flow_style=False)
 
 
     for name in classes:
@@ -77,6 +72,5 @@ def main(args, train_config, classes_config):
 
 if __name__ == "__main__":
     args = parse_arguments()
-    classes_config = parse_config(args.classes_config)
-    train_config = parse_config(args.train_config)
-    main(args, train_config, classes_config)
+    config = parse_config(args.config)
+    main(args, config)

@@ -20,7 +20,9 @@ python shapes/produce_shapes_$ERA.py \
     --channels $CHANNELS \
     --era $ERA \
     --tag $ERA \
-    --num-threads 32
+    --num-threads 8
+    --additional-cuts ml/${ERA}_{}_cuts.yaml \
+    --additional-friend ml/${ERA}_{}_friends.yaml
 
 # Normalize fake-factor shapes to nominal
 python fake-factors/normalize_shifts.py ${ERA}_shapes.root
