@@ -20,7 +20,7 @@ python shapes/produce_shapes_$ERA.py \
     --channels $CHANNELS \
     --era $ERA \
     --tag $ERA \
-    --num-threads 8
+    --num-threads 8 \
     --additional-cuts ml/${ERA}_{}_cuts.yaml \
     --additional-friend ml/${ERA}_{}_friends.yaml
 
