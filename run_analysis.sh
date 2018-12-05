@@ -29,10 +29,19 @@ CHANNELS=${@:2}      # options: et, mt, tt
 # Write datacard
 STXS_SIGNALS="stxs_stage0"  # options: stxs_stage0, stxs_stage1
 CATEGORIES="stxs_stage1"    # options: stxs_stage0, stxs_stage1
-STXS_FIT="inclusive"        # options: stxs_stage0, stxs_stage1, inclusive
 JETFAKES=1                  # options: 0, 1
 EMBEDDING=1                 # options: 0, 1
-./datacards/produce_datacard.sh $ERA $STXS_SIGNALS $CATEGORIES $STXS_FIT $JETFAKES $EMBEDDING $CHANNELS
+./datacards/produce_datacard.sh $ERA $STXS_SIGNALS $CATEGORIES $JETFAKES $EMBEDDING $CHANNELS
+
+# Combine datacards
+# The following line combines datacards of different eras.
+# The era name "combined" is used for the resulting datacards and can be fitted using this
+# as ERA variable in the following.
+#./datacards/combine_datacards.sh 2016 2017
+
+# Build workspace
+STXS_FIT="inclusive"        # options: stxs_stage0, stxs_stage1, inclusive
+./datacards/produce_workspace.sh $ERA $STXS_FIT | tee ${ERA}_produce_workspace_${STXS_FIT}.log
 
 # Run statistical inference
 #./combine/significance.sh $ERA | tee ${ERA}_significance.log
@@ -43,4 +52,4 @@ EMBEDDING=1                 # options: 0, 1
 # Make prefit and postfit shapes
 ./combine/prefit_postfit_shapes.sh $ERA
 ./plotting/plot_shapes.sh $ERA $STXS_SIGNALS $CATEGORIES $JETFAKES $EMBEDDING $CHANNELS
-./plotting/plot_signals.sh $ERA $STXS_SIGNALS $CATEGORIES $CHANNELS
+#./plotting/plot_signals.sh $ERA $STXS_SIGNALS $CATEGORIES $CHANNELS

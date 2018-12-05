@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -e
-
 echo "### Begin of job"
 
 ERA=$1
@@ -13,7 +11,7 @@ echo "Channel:" $CHANNEL
 VARIABLE=$3
 echo "Variable:" $VARIABLE
 
-OUTPUT_DIR=/ceph/wunsch/jobs_gof_2016_2018-11-07/${ERA}_${CHANNEL}_${VARIABLE}
+OUTPUT_DIR=/ceph/wunsch/jobs_gof_2016_2018-11-20/${ERA}_${CHANNEL}_${VARIABLE}
 echo "Output directory:" $OUTPUT_DIR
 
 BASE_PATH=/portal/ekpbms2/home/wunsch/workspace/sm-htt-analysis-gof
@@ -35,6 +33,6 @@ sed -i "s%CMSSW_7_4_7%${BASE_PATH}/CMSSW_7_4_7%g" utils/setup_cmssw.sh
 ./gof/run_gof.sh $ERA $CHANNEL $VARIABLE
 
 mkdir -p $OUTPUT_DIR
-cp -r plots/ gof.* $OUTPUT_DIR
+cp -r ${ERA}_plots/ gof.* $OUTPUT_DIR
 
 echo "### End of job"

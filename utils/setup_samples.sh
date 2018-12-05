@@ -11,12 +11,12 @@ ARTUS_FRIENDS_FAKE_FACTOR_2016=/lstore/hpclip/t3cms/lsintra/fakes/NN_score
 ARTUS_FRIENDS_FAKE_FACTOR_INCL_2016=/lstore/hpclip/t3cms/lsintra/fakes_incl
 
 # Samples Run2017
-ARTUS_OUTPUTS_2017=/ceph/swozniewski/SM_Htautau/ntuples/Artus17_2018-10-01/merged
-ARTUS_FRIENDS_ET_2017=/ceph/wunsch/Artus17_2018-10-01/et_keras_5
-ARTUS_FRIENDS_MT_2017=/ceph/wunsch/Artus17_2018-10-01/mt_keras_5
-ARTUS_FRIENDS_TT_2017=/ceph/wunsch/Artus17_2018-10-01/tt_keras_5
-ARTUS_FRIENDS_FAKE_FACTOR_2017=/ceph/swozniewski/SM_Htautau/ntuples/Artus17_2018-10-01/fake_factor_friends_njets_mvis
-ARTUS_FRIENDS_FAKE_FACTOR_INCL_2017=/ceph/swozniewski/SM_Htautau/ntuples/Artus17_2018-10-01/fake_factor_friends_njets_mvis_incl
+ARTUS_OUTPUTS_2017=/ceph/akhmet/merged_files_from_naf/27_11_2018_mt-et-tt_all-pipelines_sv-fit
+ARTUS_FRIENDS_ET_2017=/ceph/wunsch/Artus17_Nov/et_keras_20181202
+ARTUS_FRIENDS_MT_2017=/ceph/wunsch/Artus17_Nov/mt_keras_20181202
+ARTUS_FRIENDS_TT_2017=/ceph/wunsch/Artus17_Nov/tt_keras_20181204
+ARTUS_FRIENDS_FAKE_FACTOR_2017=/ceph/swozniewski/SM_Htautau/ntuples/Artus17_NovPU/fake_factor_friends_njets_mvis_NEW_NN_Dec04
+ARTUS_FRIENDS_FAKE_FACTOR_INCL_2017=/ceph/swozniewski/SM_Htautau/ntuples/Artus17_NovPU/fake_factor_friends_njets_mvis_incl_NEW23
 
 # Error-handling
 if [[ $ERA == *"2016"* ]]

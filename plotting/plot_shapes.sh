@@ -28,11 +28,11 @@ then
     JETFAKES_ARG="--fake-factor"
 fi
 
-mkdir -p plots
+mkdir -p ${ERA}_plots
 for FILE in "${ERA}_datacard_shapes_prefit.root" "${ERA}_datacard_shapes_postfit_sb.root"
 do
     for OPTION in "" "--png"
     do
-        ./plotting/plot_shapes.py -i $FILE -c $CHANNELS -e $ERA $OPTION --categories $CATEGORIES $JETFAKES_ARG $EMBEDDING_ARG
+        ./plotting/plot_shapes.py -i $FILE -c $CHANNELS -e $ERA $OPTION --categories $CATEGORIES $JETFAKES_ARG $EMBEDDING_ARG --normalize-by-bin-width -l
     done
 done

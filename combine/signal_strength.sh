@@ -7,7 +7,7 @@ source utils/setup_cmssw.sh
 
 if [ $STXS_FIT == "inclusive" ]
 then
-    combine -M MaxLikelihoodFit -m 125 ${ERA}_workspace.root \
+    combine -M MaxLikelihoodFit -m 125 -d ${ERA}_workspace.root \
         --robustFit 1 -n $ERA \
         --minimizerAlgoForMinos=Minuit2,Migrad
 fi
