@@ -1,15 +1,15 @@
 class_weights:
-  ggh: 52.42498396822483
-  misc: 9.023442470678715
-  noniso: 1.892063685197976
-  qqh: 181.3740893661491
-  ztt: 2.97560799331326
+  ggh: 226.1
+  qqh: 961.9
+  ztt: 4.7
+  noniso: 1.4
+  misc: 14.2
 classes:
-- ztt
-- misc
 - ggh
-- noniso
 - qqh
+- ztt
+- noniso
+- misc
 datasets:
 - ml/2016_tt/fold0_training_dataset.root
 - ml/2016_tt/fold1_training_dataset.root

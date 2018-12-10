@@ -4,11 +4,11 @@ ERA=$1
 
 # Samples Run2016
 ARTUS_OUTPUTS_2016=/lstore/cms/bargassa/HTT/Artus_2018-08-21_fixedEmbedding/merged
-ARTUS_FRIENDS_ET_2016=/lstore/hpclip/t3cms/lsintra/friends/C_NN2_nn0/et
-ARTUS_FRIENDS_MT_2016=/lstore/hpclip/t3cms/lsintra/friends/C_NN2_e95/mt
-ARTUS_FRIENDS_TT_2016=/lstore/hpclip/t3cms/lsintra/friends/C_NN2_e95/tt
+ARTUS_FRIENDS_ET_2016=/lstore/hpclip/t3cms/lsintra/friends/main_test/et
+ARTUS_FRIENDS_MT_2016=/lstore/hpclip/t3cms/lsintra/friends/main_test/mt
+ARTUS_FRIENDS_TT_2016=/lstore/hpclip/t3cms/lsintra/friends/main_test/tt
 ARTUS_FRIENDS_FAKE_FACTOR_2016=/lstore/hpclip/t3cms/lsintra/fakes/NN_score
-ARTUS_FRIENDS_FAKE_FACTOR_INCL_2016=/lstore/hpclip/t3cms/lsintra/fakes_incl
+ARTUS_FRIENDS_FAKE_FACTOR_INCL_2016=/lstore/hpclip/t3cms/lsintra/fakes/NN_score
 
 # Samples Run2017
 ARTUS_OUTPUTS_2017=/ceph/akhmet/merged_files_from_naf/27_11_2018_mt-et-tt_all-pipelines_sv-fit
