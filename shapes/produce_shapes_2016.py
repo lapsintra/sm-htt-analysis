@@ -145,7 +145,7 @@ def main(args):
 
     # Era selection
     if "2016" in args.era:
-        from shape_producer.estimation_methods_2016 import DataEstimation, HTTEstimation, ggHEstimation, ggHEstimation_0J, ggHEstimation_1J_PTH_0_60, ggHEstimation_1J_PTH_60_120, ggHEstimation_1J_PTH_120_200, ggHEstimation_1J_PTH_GT200, ggHEstimation_GE2J_PTH_0_60, ggHEstimation_GE2J_PTH_60_120, ggHEstimation_GE2J_PTH_120_200, ggHEstimation_GE2J_PTH_GT200, ggHEstimation_VBFTOPO_JET3, ggHEstimation_VBFTOPO_JET3VETO, qqHEstimation, qqHEstimation_VBFTOPO_JET3VETO, qqHEstimation_VBFTOPO_JET3, qqHEstimation_REST, qqHEstimation_VH2JET, qqHEstimation_PTJET1_GT200, VHEstimation, ZTTEstimation, ZLEstimation, ZJEstimation, WEstimation, VVLEstimation, VVTEstimation, VVJEstimation, TTLEstimation, TTTEstimation, TTJEstimation, QCDEstimationMT, QCDEstimationET, QCDEstimationTT, ZTTEmbeddedEstimation, FakeEstimationLT, NewFakeEstimationLT, FakeEstimationTT, NewFakeEstimationTT
+        from shape_producer.estimation_methods_2016 import DataEstimation, HTTEstimation, ggHEstimation, ggHEstimation_0J, ggHEstimation_1J_PTH_0_60, ggHEstimation_1J_PTH_60_120, ggHEstimation_1J_PTH_120_200, ggHEstimation_1J_PTH_GT200, ggHEstimation_GE2J_PTH_0_60, ggHEstimation_GE2J_PTH_60_120, ggHEstimation_GE2J_PTH_120_200, ggHEstimation_GE2J_PTH_GT200, ggHEstimation_VBFTOPO_JET3, ggHEstimation_VBFTOPO_JET3VETO, qqHEstimation, qqHEstimation_VBFTOPO_JET3VETO, qqHEstimation_VBFTOPO_JET3, qqHEstimation_REST, qqHEstimation_VH2JET, qqHEstimation_PTJET1_GT200, VHEstimation, WHEstimation, ZHEstimation, ZTTEstimation, ZLEstimation, ZJEstimation, WEstimation, VVLEstimation, VVTEstimation, VVJEstimation, TTLEstimation, TTTEstimation, TTJEstimation, QCDEstimationMT, QCDEstimationET, QCDEstimationTT, ZTTEmbeddedEstimation, FakeEstimationLT, NewFakeEstimationLT, FakeEstimationTT, NewFakeEstimationTT
         from shape_producer.era import Run2016
         era = Run2016(args.datasets)
     else:
@@ -206,6 +206,8 @@ def main(args):
         "qqH_VH2JET"           : Process("qqH_VH2JET125",           qqHEstimation_VH2JET          (era, directory, mt, friend_directory=mt_friend_directory)),
         "qqH_PTJET1_GT200"     : Process("qqH_PTJET1_GT200125",     qqHEstimation_PTJET1_GT200    (era, directory, mt, friend_directory=mt_friend_directory)),
         "VH"    : Process("VH125",    VHEstimation    (era, directory, mt, friend_directory=mt_friend_directory)),
+        "WH"    : Process("WH125",    WHEstimation    (era, directory, mt, friend_directory=mt_friend_directory)),
+        "ZH"    : Process("ZH125",    ZHEstimation    (era, directory, mt, friend_directory=mt_friend_directory)),
         "ZTT"   : Process("ZTT",      ZTTEstimation   (era, directory, mt, friend_directory=mt_friend_directory)),
         "ZL"    : Process("ZL",       ZLEstimation    (era, directory, mt, friend_directory=mt_friend_directory)),
         "ZJ"    : Process("ZJ",       ZJEstimation    (era, directory, mt, friend_directory=mt_friend_directory)),
@@ -250,6 +252,8 @@ def main(args):
         "qqH_VH2JET"           : Process("qqH_VH2JET125",           qqHEstimation_VH2JET          (era, directory, et, friend_directory=et_friend_directory)),
         "qqH_PTJET1_GT200"     : Process("qqH_PTJET1_GT200125",     qqHEstimation_PTJET1_GT200    (era, directory, et, friend_directory=et_friend_directory)),
         "VH"    : Process("VH125",    VHEstimation    (era, directory, et, friend_directory=et_friend_directory)),
+        "WH"    : Process("WH125",    WHEstimation    (era, directory, et, friend_directory=et_friend_directory)),
+        "ZH"    : Process("ZH125",    ZHEstimation    (era, directory, et, friend_directory=et_friend_directory)),
         "ZTT"   : Process("ZTT",      ZTTEstimation   (era, directory, et, friend_directory=et_friend_directory)),
         "ZL"    : Process("ZL",       ZLEstimation    (era, directory, et, friend_directory=et_friend_directory)),
         "ZJ"    : Process("ZJ",       ZJEstimation    (era, directory, et, friend_directory=et_friend_directory)),
@@ -294,6 +298,8 @@ def main(args):
         "qqH_VH2JET"           : Process("qqH_VH2JET125",           qqHEstimation_VH2JET          (era, directory, tt, friend_directory=tt_friend_directory)),
         "qqH_PTJET1_GT200"     : Process("qqH_PTJET1_GT200125",     qqHEstimation_PTJET1_GT200    (era, directory, tt, friend_directory=tt_friend_directory)),
         "VH"    : Process("VH125",    VHEstimation    (era, directory, tt, friend_directory=tt_friend_directory)),
+        "WH"    : Process("WH125",    WHEstimation    (era, directory, tt, friend_directory=tt_friend_directory)),
+        "ZH"    : Process("ZH125",    ZHEstimation    (era, directory, tt, friend_directory=tt_friend_directory)),
         "ZTT"   : Process("ZTT",      ZTTEstimation (era, directory, tt, friend_directory=tt_friend_directory)),
         "ZL"    : Process("ZL",       ZLEstimation  (era, directory, tt, friend_directory=tt_friend_directory)),
         "ZJ"    : Process("ZJ",       ZJEstimation  (era, directory, tt, friend_directory=tt_friend_directory)),
@@ -521,7 +527,7 @@ def main(args):
     # yapf: enable
     if args.gof_channel == None:
         signal_nicks = [
-            "HTT", "VH", "ggH", "qqH", "qqH_VBFTOPO_JET3VETO", "qqH_VBFTOPO_JET3",
+            "HTT", "VH", "WH", "ZH", "ggH", "qqH", "qqH_VBFTOPO_JET3VETO", "qqH_VBFTOPO_JET3",
             "qqH_REST", "qqH_PTJET1_GT200", "qqH_VH2JET", "ggH_0J",
             "ggH_1J_PTH_0_60", "ggH_1J_PTH_60_120", "ggH_1J_PTH_120_200",
             "ggH_1J_PTH_GT200", "ggH_GE2J_PTH_0_60", "ggH_GE2J_PTH_60_120",
@@ -668,7 +674,7 @@ def main(args):
 
     # MET energy scale
     met_unclustered_variations = create_systematic_variations(
-        "CMS_scale_met_unclustered_Run2016", "metUnclusteredEn",
+        "CMS_scale_met_unclustered", "metUnclusteredEn",
         DifferentPipeline)
     # NOTE: Clustered MET not used anymore in the uncertainty model
     #met_clustered_variations = create_systematic_variations(
@@ -698,10 +704,10 @@ def main(args):
 
     # Recoil correction unc
     recoil_resolution_variations = create_systematic_variations(
-        "CMS_htt_boson_reso_met_Run2016", "metRecoilResolution",
+        "CMS_htt_boson_reso_met", "metRecoilResolution",
         DifferentPipeline)
     recoil_response_variations = create_systematic_variations(
-        "CMS_htt_boson_scale_met_Run2016", "metRecoilResponse",
+        "CMS_htt_boson_scale_met", "metRecoilResponse",
         DifferentPipeline)
     for variation in recoil_resolution_variations + recoil_response_variations:
         for process_nick in [
@@ -727,7 +733,7 @@ def main(args):
 
     # Z pt reweighting
     zpt_variations = create_systematic_variations(
-        "CMS_htt_dyShape_Run2016", "zPtReweightWeight", SquareAndRemoveWeight)
+        "CMS_htt_dyShape", "zPtReweightWeight", SquareAndRemoveWeight)
     for variation in zpt_variations:
         for process_nick in ["ZTT", "ZL", "ZJ"]:
             if "et" in [args.gof_channel] + args.channels:
@@ -751,7 +757,7 @@ def main(args):
 
     # top pt reweighting
     top_pt_variations = create_systematic_variations(
-        "CMS_htt_ttbarShape_Run2016", "topPtReweightWeight",
+        "CMS_htt_ttbarShape", "topPtReweightWeight",
         SquareAndRemoveWeight)
     for variation in top_pt_variations:
         for process_nick in ["TTT", "TTL", "TTJ"]:
@@ -1052,7 +1058,7 @@ def main(args):
                     process=mt_processes['ZTTpTTTauTauDown'],
                     analysis="smhtt",
                     era=era,
-                    variation=Relabel("CMS_htt_emb_ttbar_Run2016", "Down"),
+                    variation=Relabel("CMS_htt_emb_ttbar", "Down"),
                     mass="125"))
 
             mt_processes['ZTTpTTTauTauUp'] = Process(
@@ -1066,7 +1072,7 @@ def main(args):
                     process=mt_processes['ZTTpTTTauTauUp'],
                     analysis="smhtt",
                     era=era,
-                    variation=Relabel("CMS_htt_emb_ttbar_Run2016", "Up"),
+                    variation=Relabel("CMS_htt_emb_ttbar", "Up"),
                     mass="125"))
 
     if 'et' in [args.gof_channel] + args.channels:
@@ -1082,7 +1088,7 @@ def main(args):
                     process=et_processes['ZTTpTTTauTauDown'],
                     analysis="smhtt",
                     era=era,
-                    variation=Relabel("CMS_htt_emb_ttbar_Run2016", "Down"),
+                    variation=Relabel("CMS_htt_emb_ttbar", "Down"),
                     mass="125"))
 
             et_processes['ZTTpTTTauTauUp'] = Process(
@@ -1096,7 +1102,7 @@ def main(args):
                     process=et_processes['ZTTpTTTauTauUp'],
                     analysis="smhtt",
                     era=era,
-                    variation=Relabel("CMS_htt_emb_ttbar_Run2016", "Up"),
+                    variation=Relabel("CMS_htt_emb_ttbar", "Up"),
                     mass="125"))
     if 'tt' in [args.gof_channel] + args.channels:
         for category in tt_categories:
@@ -1111,7 +1117,7 @@ def main(args):
                     process=tt_processes['ZTTpTTTauTauDown'],
                     analysis="smhtt",
                     era=era,
-                    variation=Relabel("CMS_htt_emb_ttbar_Run2016", "Down"),
+                    variation=Relabel("CMS_htt_emb_ttbar", "Down"),
                     mass="125"))
 
             tt_processes['ZTTpTTTauTauUp'] = Process(
@@ -1125,7 +1131,7 @@ def main(args):
                     process=tt_processes['ZTTpTTTauTauUp'],
                     analysis="smhtt",
                     era=era,
-                    variation=Relabel("CMS_htt_emb_ttbar_Run2016", "Up"),
+                    variation=Relabel("CMS_htt_emb_ttbar", "Up"),
                     mass="125"))
 
     # Fake factor uncertainties
@@ -1222,11 +1228,11 @@ def main(args):
             "THU_ggH_qmtop"
     ]:
         ggh_variations.append(
-            AddWeight("{}_Run2016".format(unc), "{}_weight".format(unc),
+            AddWeight(unc, "{}_weight".format(unc),
                       Weight("({})".format(unc), "{}_weight".format(unc)),
                       "Up"))
         ggh_variations.append(
-            AddWeight("{}_Run2016".format(unc), "{}_weight".format(unc),
+            AddWeight(unc, "{}_weight".format(unc),
                       Weight("(1.0/{})".format(unc), "{}_weight".format(unc)),
                       "Down"))
     for variation in ggh_variations:
