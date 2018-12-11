@@ -9,7 +9,7 @@ cd ml
 cp *.yaml ${CWD}/shelf/$RUN/ml
 
 for CHANNEL in et mt tt; do
-    mkdir ${CWD}/shelf/${RUN}/ml/${CHANNEL}
+    mkdir ${CWD}/shelf/${RUN}/ml/${ERA}_${CHANNEL}
     cd ${CWD}/ml/${ERA}_${CHANNEL}
     cp *.h5 *.pickle *.png *.yaml ${CWD}/shelf/${RUN}/ml/${ERA}_${CHANNEL}
 done

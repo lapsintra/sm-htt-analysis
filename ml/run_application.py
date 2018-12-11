@@ -16,7 +16,6 @@ logger.addHandler(handler)
 
 
 def process_file(arguments):
-    print(arguments)
     call(['./ml/job_application.sh {}'.format(arguments)], shell=True)
 
 

@@ -18,10 +18,10 @@ rm -rf output/${ERA}_smhtt
 # Create datacards
 $CMSSW_BASE/bin/slc6_amd64_gcc491/MorphingSM2017 \
     --base_path=$PWD \
-    --input_folder_mt="/" \
-    --input_folder_et="/" \
-    --input_folder_tt="/" \
-    --input_folder_em="/" \
+    --input_folder_mt="." \
+    --input_folder_et="." \
+    --input_folder_tt="." \
+    --input_folder_em="." \
     --real_data=false \
     --jetfakes=$JETFAKES \
     --embedding=$EMBEDDING \

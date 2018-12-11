@@ -53,7 +53,7 @@ def main(args, config):
         sum_all += sum_
         counts[name] = sum_
 
-    config["classes"] = classes
+    classes = config["classes"]
     config["class_weights"] = {c: sum_all/counts[c] for c in classes}
 
 
