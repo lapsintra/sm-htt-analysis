@@ -344,6 +344,7 @@ def apply_fake_factors(config):
             #input_friend_file.Close()
             input_file.Close()
             output_file.Close()
+    logger.info("Finished %s" % datafile.split("/")[0])
 
 
 def main(args):
@@ -443,6 +444,7 @@ def main(args):
     pool.join()
     del pool
 
+    logger.info("Finished!")
 
 if __name__ == "__main__":
     args = parse_arguments()

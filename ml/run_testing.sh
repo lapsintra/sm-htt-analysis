@@ -2,6 +2,7 @@
 
 ERA=$1
 CHANNEL=$2
+NN_PATH=$3
 
 source utils/setup_cvmfs_sft.sh
 source utils/setup_python.sh
@@ -23,13 +24,17 @@ mkdir -p ml/${ERA}_${CHANNEL}
 # Confusion matrices
 TEST_CONFUSION_MATRIX=1
 if [ -n "$TEST_CONFUSION_MATRIX" ]; then
-python htt-ml/testing/keras_confusion_matrix.py \
-    ml/${ERA}_${CHANNEL}_training.yaml ml/${ERA}_${CHANNEL}_testing.yaml \
-    ml/${ERA}_${CHANNEL}_friends.yaml 0
-
-python htt-ml/testing/keras_confusion_matrix.py \
-    ml/${ERA}_${CHANNEL}_training.yaml ml/${ERA}_${CHANNEL}_testing.yaml \
-    ml/${ERA}_${CHANNEL}_friends.yaml 1
+    for i in {0..1}; do
+        if [ -z $NN_PATH ]; then
+            python htt-ml/testing/keras_confusion_matrix.py \
+                ml/${ERA}_${CHANNEL}_training.yaml ml/${ERA}_${CHANNEL}_testing.yaml \
+                ml/${ERA}_${CHANNEL}_friends.yaml $i
+        else
+            python htt-ml/testing/keras_confusion_matrix.py \
+                ml/${ERA}_${CHANNEL}_training.yaml ml/${ERA}_${CHANNEL}_testing.yaml \
+                ml/${ERA}_${CHANNEL}_friends.yaml $i --n $NN_PATH
+        fi
+    done
 fi
 
 # Taylor analysis (1D)
