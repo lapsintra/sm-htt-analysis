@@ -180,7 +180,7 @@ def main(args):
 
     mt = MTSM2016()
     for cutstring in additional_cuts["mt"]:
-        mt.cuts.add(Cut(cutstring))
+        mt.cuts.add(Cut(cutstring, "custom"))
     if args.QCD_extrap_fit:
         mt.cuts.remove("muon_iso")
         mt.cuts.add(Cut("(iso_1<0.5)*(iso_1>=0.15)", "muon_iso_loose"))
@@ -226,7 +226,7 @@ def main(args):
     mt_processes["QCD"] = Process("QCD", QCDEstimationMT(era, directory, mt, [mt_processes[process] for process in ["ZTT", "ZJ", "ZL", "W", "TTT", "TTL", "TTJ", "VVT", "VVL", "VVJ"]], mt_processes["data"], extrapolation_factor=1.17))
     et = ETSM2016()
     for cutstring in additional_cuts["et"]:
-        et.cuts.add(Cut(cutstring))
+        et.cuts.add(Cut(cutstring, "custom"))
     if args.QCD_extrap_fit:
         et.cuts.remove("ele_iso")
         et.cuts.add(Cut("(iso_1<0.5)*(iso_1>=0.1)", "ele_iso_loose"))
@@ -271,7 +271,7 @@ def main(args):
     et_processes["QCD"] = Process("QCD", QCDEstimationET(era, directory, et, [et_processes[process] for process in ["ZTT", "ZJ", "ZL", "W", "TTT", "TTL", "TTJ", "VVT", "VVL", "VVJ"]], et_processes["data"], extrapolation_factor=1.16))
     tt = TTSM2016()
     for cutstring in additional_cuts["tt"]:
-        tt.cuts.add(Cut(cutstring))
+        tt.cuts.add(Cut(cutstring, "custom"))
     if args.QCD_extrap_fit:
         tt.cuts.get("os").invert()
     if args.HIG16043:

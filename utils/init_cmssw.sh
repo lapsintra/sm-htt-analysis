@@ -17,6 +17,9 @@ cd ../..
 
 # Clone CombineHarvester
 git clone https://github.com/KIT-CMS/CombineHarvester CombineHarvester -b SMHTT2017-dev
+git checkout ad54b4d0d626cb14d988088c5efaf90922e2e079
+rm CombineHarvester/HTTSM2017/src/HttSystematics_SMRun2.cc
+cp ../../HttSystematics_SMRun2.cc CombineHarvester/HTTSM2017/src/HttSystematics_SMRun2.cc
 mkdir -p CombineHarvester/HTTSM2017/shapes
 
 # Build

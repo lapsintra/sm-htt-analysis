@@ -1,88 +1,170 @@
 
+import ROOT
+ROOT.PyConfig.IgnoreCommandLineOptions = True  # disable ROOT internal argument parser
+ROOT.gErrorIgnoreLevel = ROOT.kError
 import json
 import os
 import sys
-import ROOT
 import yaml
 import numpy as np
+import argparse
+
+import logging
+logger = logging.getLogger()
 
 
-channel = sys.argv[1]
+def parse_arguments():
+    parser = argparse.ArgumentParser(
+        description="Plot efficiencies for NN cuts.")
 
-merged_path_friends = "/lstore/cms/ev18131/approach_superclass"
-merged_path_orig = "/lstore/cms/bargassa/HTT/Artus_2018-02-25/merged"
-tree_path = os.path.join(channel + "_nominal", "ntuple")
-config = yaml.load(open(os.path.join("ml", channel + "_base_dataset_config.yaml")))
-kappa_dataset = json.load(open(os.path.join("ml", "datasets.json")))
-
-class_filepaths = dict()
-
-for key,process in config["processes"].iteritems():
-    _class = process["class"]
-    files = process["files"]
-
-    if not class_filepaths.has_key(_class):
-        class_filepaths[_class] = list()
-
-    class_filepaths[_class].extend(files)
-
-
-cuts = list(np.arange(0.0, 1.0, 0.05))
-effs_per_class = dict()
-
-for _class, class_files in class_filepaths.iteritems():
-    effs_per_class[_class] = list()
-    for cut in cuts:
-        weighted_eff = 0.
-        sum_weights = 0.
-
-        for file_ in class_files:
-
-            root_orig = ROOT.TFile(os.path.join(merged_path_orig, file_), "read")
-            tree_orig = root_orig.Get(tree_path)
-            leafy = tree_orig.GetLeaf("crossSectionPerEventWeight")
-            leafy.GetBranch().GetEntry(0)
-            cross_section = leafy.GetValue()
-            root_app = ROOT.TFile(os.path.join(merged_path_friends, channel, file_), "read")
-            tree_friends = root_app.Get(tree_path)
-
-            tot_gen_evts = int(kappa_dataset[os.path.dirname(file_)]["n_events_generated"])
-            uncer_tot_gen_evts = tot_gen_evts**0.5
-            sel_evts = float(tree_friends.GetEntries("{}_signal >= {}".format(channel, cut)))
-            uncer_sel_evts = sel_evts**0.5
-
-            weighted_eff += sel_evts/tot_gen_evts * cross_section
-            sum_weights += cross_section
+    parser.add_argument(
+        "--directory",
+        required=True,
+        type=str,
+        help="Directory with Artus outputs.")
+    parser.add_argument(
+        "--et-friend-directory",
+        default=None,
+        type=str,
+        help=
+        "Directory arranged as Artus output and containing a friend tree for et."
+    )
+    parser.add_argument(
+        "--mt-friend-directory",
+        default=None,
+        type=str,
+        help=
+        "Directory arranged as Artus output and containing a friend tree for mt."
+    )
+    parser.add_argument(
+        "--tt-friend-directory",
+        default=None,
+        type=str,
+        help=
+        "Directory arranged as Artus output and containing a friend tree for tt."
+    )
+    parser.add_argument(
+        "--channel",
+        type=str,
+        help="Channel to be considered.")
+    parser.add_argument("--era", type=str, help="Experiment era.")
+    return parser.parse_args()
 
 
-        efficiency = weighted_eff/sum_weights
-        print(_class, cut,  efficiency)
-        effs_per_class[_class].append(efficiency)
 
-n = len(cuts)
-cuts_array = np.array(cuts)
-graphs = list()
+def main(args):
+    channel = args.channel
+    era = args.era
 
-vert_error = np.zeros(n, dtype=float)
-horiz_error = np.zeros(n, dtype=float)
+    friend_path = getattr(args, "{}_friend_directory".format(channel))
+    merged_path = args.directory
+    tree_path = os.path.join("{}_nominal".format(channel), "ntuple")
+    config = yaml.load(open(os.path.join("ml", "{}_{}".format(era, channel), "base_dataset_config.yaml")))
+    binning = list(np.arange(0., 1.01, 0.01))
+    nn_cuts = list(np.arange(0., 1.0, 0.01))
 
-legend = ROOT.TLegend()
-for i_class, _class in enumerate(class_filepaths):
-    eff_array =  np.array(effs_per_class[_class])
+    color_dict = {
+        "ZTT": ROOT.kOrange-4,
+        "ZL": ROOT.kAzure+8,
+        "ZJ": ROOT.kTeal+9,
+        "TTJ": ROOT.kMagenta-6,
+        "TTT": ROOT.kBlue-6,
+        "W": ROOT.kRed-6,
+        "VV": ROOT.kRed-1,
+        "QCD": ROOT.kRed-10,
+        "EWKWm": ROOT.kSpring+1,
+        "EWKWp": ROOT.kSpring+1,
+        "EWKZ": ROOT.kSpring+1,
+        "ggH": ROOT.kRed+1,
+        "qqH": ROOT.kTeal-6
+    }
 
-    gr = ROOT.TGraphErrors(n, cuts_array, eff_array, vert_error, horiz_error)
-    gr.SetMarkerStyle(21)
-    gr.SetMarkerColor(i_class+1)
+    hists = dict()
+    for pname, process in config["processes"].iteritems():
 
-    legend.AddEntry(gr, _class, "p")
+        print(pname)
 
-    if i_class == 0:
-        gr.SetTitle("efficiencies")
-        gr.Draw("APL")
-    else:
-        gr.Draw("PL")
+        hname = pname
+        htitle = pname
+        hist = ROOT.TH1F(hname, htitle, len(binning)-1, np.array(binning))
+        hist.SetMinimum(1e-1)
+        hist.Sumw2()
+        hists[pname] = hist
 
-    graphs.append(gr)
-legend.Draw()
+        cuts = process["cut_string"]
+        weights = process["weight_string"]
 
-ROOT.gSystem.Run()
+        for cut in nn_cuts:
+            print(cut)
+            cut_string = "({})*({})".format("{}_signal >= {}".format(channel, cut), cuts)
+
+            tree = ROOT.TChain()
+            friend_tree = ROOT.TChain()
+            for file_ in process["files"]:
+                tree.Add(os.path.join(merged_path, file_, tree_path))
+                friend_tree.Add(os.path.join(friend_path, file_, tree_path))
+            tree.AddFriend(friend_tree)
+
+            tree.Draw("{}_signal*0.01 + {} >> +{}".format(channel, cut, hname), cut_string, "goff")
+
+            tree.RemoveFriend(friend_tree)
+            tree.Reset()
+            friend_tree.Reset()
+
+
+    canvas = ROOT.TCanvas("c1", "c1", 579, 188, 700, 500)
+    canvas.cd()
+    # canvas.cd().SetLogy()
+
+    n = len(nn_cuts)
+    x_array = np.array(nn_cuts)
+    err_x_array = np.zeros(n, dtype=float)
+    legend = ROOT.TLegend()
+    graphs = list()
+    for i_hist, (pname, hist) in enumerate(hists.iteritems()):
+        y = list()
+        err_y = list()
+        total = hist.GetBinContent(1)
+        if total == 0:
+            continue
+        err_total = hist.GetBinError(1)
+        for i_bin, bin_xlow in enumerate(nn_cuts):
+            i_bin += 1
+
+            selected = hist.GetBinContent(i_bin)
+            err_selected = hist.GetBinError(i_bin)
+
+            efficiency = selected/total
+            if selected == 0:
+                err_efficiency = efficiency*abs(err_selected - err_total/total)
+            else:
+                err_efficiency = efficiency*abs(err_selected/selected - err_total/total)
+
+            y.append(efficiency)
+            err_y.append(err_efficiency)
+
+        y_array = np.array(y)
+        err_y_array = np.array(err_y)
+
+        gr = ROOT.TGraphErrors(n, x_array, y_array, err_x_array, err_y_array)
+        gr.SetMarkerStyle(21)
+        gr.SetMarkerColor(color_dict[pname])
+        gr.SetFillColor(color_dict[pname])
+        hist.SetLineWidth(3)
+
+        legend.AddEntry(gr, pname, "pl")
+
+        if i_hist == 0:
+            gr.SetTitle("{} efficiencies".format(channel))
+            gr.Draw("APL")
+        else:
+            gr.Draw("PL")
+
+        graphs.append(gr)
+    legend.Draw()
+
+    ROOT.gSystem.Run()
+
+if __name__ == "__main__":
+    args = parse_arguments()
+    main(args)
